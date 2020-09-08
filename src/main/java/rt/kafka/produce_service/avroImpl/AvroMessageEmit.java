@@ -1,33 +1,33 @@
-package rt.kafka.Service.jsonImpl;
+package rt.kafka.produce_service.avroImpl;
 
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import rt.kafka.Service.KafkaMessageEmitService;
+import rt.kafka.produce_service.KafkaMessageEmitService;
 
 import java.util.Properties;
 
-public class JsonMessageEmit implements KafkaMessageEmitService<String> {
+public class AvroMessageEmit implements KafkaMessageEmitService<byte[]> {
 
     private final String topicName;
 
     private final Properties kafkaConfigs;
 
-    private JsonSerialization jsonSerialization;
+    private AvroSerialization avroSerialization;
 
-    public JsonMessageEmit(String topicName, Properties kafkaConfigs) {
+    public AvroMessageEmit(String topicName, Properties kafkaConfigs) {
         this.topicName = topicName;
         this.kafkaConfigs = kafkaConfigs;
     }
 
     @Override
     public void initSerializationSchema(String topicName) {
-        jsonSerialization = new JsonSerialization(topicName);
+        avroSerialization = new AvroSerialization(topicName);
     }
 
     @Override
-    public FlinkKafkaProducer<String> runProducer() {
-        return new FlinkKafkaProducer<String>(
+    public FlinkKafkaProducer<byte[]> runProducer() {
+        return new FlinkKafkaProducer<byte[]>(
                 topicName,
-                jsonSerialization,
+                avroSerialization,
                 kafkaConfigs,
                 FlinkKafkaProducer.Semantic.EXACTLY_ONCE
         );

@@ -1,4 +1,4 @@
-package rt.kafka.Service;
+package rt.kafka.produce_service;
 
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
 

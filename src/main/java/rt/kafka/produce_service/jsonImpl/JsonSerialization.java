@@ -1,11 +1,11 @@
-package rt.kafka.Service.jsonImpl;
+package rt.kafka.produce_service.jsonImpl;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
-import rt.kafka.Service.BuildSerilizationSchema;
+import rt.kafka.produce_service.BuildSerilizationSchema;
 
 import javax.annotation.Nullable;
 
-public class JsonSerialization extends BuildSerilizationSchema<String> {
+public class JsonSerialization extends BuildSerilizationSchema<byte[]> {
     private final String topicName;
 
     public JsonSerialization(String topicName) {
@@ -13,9 +13,9 @@ public class JsonSerialization extends BuildSerilizationSchema<String> {
     }
 
     @Override
-    public ProducerRecord<byte[], byte[]> serialize(String message, @Nullable Long timestamp) {
+    public ProducerRecord<byte[], byte[]> serialize(byte[] message, @Nullable Long timestamp) {
         return new ProducerRecord<byte[], byte[]> (
-                topicName, message.getBytes()
+                topicName, message
         );
     }
 }

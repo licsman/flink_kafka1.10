@@ -1,4 +1,4 @@
-package rt.kafka.Service.model;
+package rt.kafka.produce_service.model;
 
 public enum PRODUCT_TEMPLATE {
     P0(0,"Apple12",6988.22,239, "good,good,good"),

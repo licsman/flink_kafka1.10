@@ -1,12 +1,12 @@
-package rt.kafka.Service.csvImpl;
+package rt.kafka.produce_service.csvImpl;
 
 
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
-import rt.kafka.Service.KafkaMessageEmitService;
+import rt.kafka.produce_service.KafkaMessageEmitService;
 
 import java.util.Properties;
 
-public class CsvMessageEmit implements KafkaMessageEmitService<String> {
+public class CsvMessageEmit implements KafkaMessageEmitService<byte[]> {
 
     private final String topicName;
 
@@ -25,9 +25,9 @@ public class CsvMessageEmit implements KafkaMessageEmitService<String> {
     }
 
     @Override
-    public FlinkKafkaProducer<String> runProducer() {
+    public FlinkKafkaProducer<byte[]> runProducer() {
 
-        return new FlinkKafkaProducer<String>(
+        return new FlinkKafkaProducer<byte[]>(
                 topicName,
                 csvSerialization,
                 kafkaConfigs,
