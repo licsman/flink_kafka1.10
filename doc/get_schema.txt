@@ -1,0 +1,7 @@
+curl -X curl -X GET -H "Accept:application/json" localhost:8091/subjects
+
+curl -X curl -X GET -H "Accept:application/json" localhost:8091/subjects |python -m json.tool
+
+curl -X curl -X GET -H "Accept:application/json" localhost:8091/subjects/avro.registry.01-value/versions |python -m json.tool
+
+curl -X curl -X GET -H "Accept:application/json" localhost:8091/subjects/avro.registry.01-value/versions/2 |python -m json.tool

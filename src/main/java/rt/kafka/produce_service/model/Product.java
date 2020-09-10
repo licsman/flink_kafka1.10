@@ -8,15 +8,21 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.EncoderFactory;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+@XmlRootElement(name="AppAccount")
 public class Product {
     private int productId;
     private String productName;
     private double productPrice;
     private int productWeight;
     private String productDescription;
+
+    public Product() {
+    }
 
     public Product(int productId, String productName, double productPrice, int productWeight, String productDescription) {
         this.productId = productId;
@@ -26,24 +32,49 @@ public class Product {
         this.productDescription = productDescription;
     }
 
+    @XmlElement(name = "productId")
     public void setProductId(int productId) {
         this.productId = productId;
     }
 
+    @XmlElement(name = "productName")
     public void setProductName(String productName) {
         this.productName = productName;
     }
 
+    @XmlElement(name = "productPrice")
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
+    @XmlElement(name = "productWeight")
     public void setProductWeight(int productWeight) {
         this.productWeight = productWeight;
     }
 
+    @XmlElement(name = "productDescription")
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public int getProductWeight() {
+        return productWeight;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
     }
 
     @Override

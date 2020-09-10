@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 public class RunAvroRegistryEmit {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int total = 10;
+        int total = 1;
         String topicName = "avro.registry.01";
         Properties kafkaConfig = new Properties();
 

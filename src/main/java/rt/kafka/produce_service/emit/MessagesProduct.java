@@ -4,6 +4,11 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import rt.kafka.produce_service.model.PRODUCT_TEMPLATE;
 import rt.kafka.produce_service.model.Product;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.ByteArrayOutputStream;
+
 import static java.lang.Thread.sleep;
 
 public class MessagesProduct implements SourceFunction<byte[]> {
@@ -24,6 +29,8 @@ public class MessagesProduct implements SourceFunction<byte[]> {
                 JsonMessage(ctx, 100);
             case "avro" :
                 AvroMessage(ctx, 100);
+            case "xml" :
+                XmlMessage(ctx, 100);
         }
     }
 
@@ -81,5 +88,38 @@ public class MessagesProduct implements SourceFunction<byte[]> {
             sleep(1000);
             count ++;
         }
+    }
+
+    public void XmlMessage(SourceContext<byte[]> ctx, int total) throws InterruptedException {
+        while (isRunning && count < total) {
+            PRODUCT_TEMPLATE template = PRODUCT_TEMPLATE.valueOf("P" + (count%10));
+            Product product = new Product(
+                    template.getId(),
+                    template.getName(),
+                    template.getPrice(),
+                    template.getWeight(),
+                    template.getDescription()
+            );
+            ctx.collect(toXmlByte(product));
+            System.out.println("xml生产第" + (count + 1) + "条：" + product.toString());
+            sleep(1000);
+            count ++;
+        }
+    }
+
+    public byte[] toXmlByte(Product product) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            JAXBContext context = JAXBContext.newInstance(Product.class);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            marshaller.marshal(product, baos);
+            System.out.println("输出xml:" + new String(baos.toByteArray()));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return baos.toByteArray();
     }
 }
